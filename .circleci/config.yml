@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  checkoutAndTest:
+  checkout_and_unit_test:
     docker:
       - image: cimg/node:15.8.0
     steps:
