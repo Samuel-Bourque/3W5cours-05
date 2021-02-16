@@ -25,14 +25,31 @@ jobs:
 workflows:
   build:
     jobs:
-      - checkoutAndTest
-      - afterTests1:
+      - checkout_and_unit_test
+      - deploy_backend:
+        requires:
+         - checkout_and_unit_test
+      - integration_tests_backend:
+        requires:
+         - deploy_backend
+      - deploy_staging:
+        requires:
+        -integration_tests_backend
+      - acceptance_tests_1:
           requires:
-            - checkoutAndTest
-      - afterTests2:
+            - deploy_staging
+      - acceptance_tests_2:
           requires:
-            - checkoutAndTest
-      - deploy:
+            - deploy_staging
+      - acceptance_tests_3:
           requires:
-            - afterTests1
-            - afterTests2
+            - deploy_staging
+      - acceptance_tests_4:
+          requires:
+            - deploy_staging
+      - deploy_staging:
+          requires:
+            - acceptance_tests_1
+            - acceptance_tests_2
+            - acceptance_tests_3
+            - acceptance_tests_4
