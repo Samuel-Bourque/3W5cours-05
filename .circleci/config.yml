@@ -10,6 +10,10 @@ jobs:
       - run: npm --version
       - run: npm install
       - run: npm run test
+  deploy_backend:
+    machine: true
+    steps:
+      - run: echo "Deploy the backend"
   acceptance_tests_1:
     machine: true
     steps:
@@ -34,18 +38,19 @@ workflows:
   build:
     jobs:
       - checkout_and_unit_test
+      - deploy_backend
       - acceptance_tests_1:
           requires:
-            - checkout_and_unit_test
+            - deploy_backend
       - acceptance_tests_2:
           requires:
-            - checkout_and_unit_test
+            - deploy_backend
       - acceptance_tests_3:
           requires:
-            - checkout_and_unit_test
+            - deploy_backend
       - acceptance_tests_4:
           requires:
-            - checkout_and_unit_test
+            - deploy_backend
       - deploy_production:
           requires:
             - acceptance_tests_1
