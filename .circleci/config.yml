@@ -14,6 +14,14 @@ jobs:
     machine: true
     steps:
       - run: echo "Deploy backend"
+  integration_tests_backend:
+    machine: true
+    steps:
+      - run: echo "Integration tests backend"
+  deploy_staging:
+    machine: true
+    steps:
+      - run: echo "Deploy staging"
   acceptance_tests_1:
     machine: true
     steps:
@@ -41,18 +49,24 @@ workflows:
       - deploy_backend:
           requires:
             - checkout_and_unit_test
+      - integration_tests_backend:
+          requires:
+            - deploy_backend
+      - deploy_staging:
+          requires:
+            - integration_tests_backend
       - acceptance_tests_1:
           requires:
-            - deploy_backend
+            - deploy_staging
       - acceptance_tests_2:
           requires:
-            - deploy_backend
+            - deploy_staging
       - acceptance_tests_3:
           requires:
-            - deploy_backend
+            - deploy_staging
       - acceptance_tests_4:
           requires:
-            - deploy_backend
+            - deploy_staging
       - deploy_production:
           requires:
             - acceptance_tests_1
