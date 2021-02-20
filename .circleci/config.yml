@@ -13,7 +13,7 @@ jobs:
   deploy_backend:
     machine: true
     steps:
-      - run: echo "Deploy the backend"
+      - run: echo "Deploy backend"
   acceptance_tests_1:
     machine: true
     steps:
