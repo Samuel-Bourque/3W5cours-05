@@ -18,11 +18,11 @@ jobs:
     machine: true
     steps:
       - run: echo "tests 2 have passed!"
-        afterTests3:
+  afterTests3:
     machine: true
     steps:
       - run: echo "tests 3 have passed!"
-        afterTests4:
+  afterTests4:
     machine: true
     steps:
       - run: echo "tests 4 have passed!"

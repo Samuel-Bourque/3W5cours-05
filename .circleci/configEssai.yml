@@ -26,13 +26,13 @@ workflows:
   build:
     jobs:
       - checkoutAndTest
-      - afterTests3:
+      - afterTests1:
           requires:
             - checkoutAndTest
-      - afterTests4:
+      - afterTests2:
           requires:
             - checkoutAndTest
       - deploy:
           requires:
-            - afterTests3
-            - afterTests4
+            - afterTests1
+            - afterTests2
