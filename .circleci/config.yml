@@ -38,7 +38,9 @@ workflows:
   build:
     jobs:
       - checkout_and_unit_test
-      - deploy_backend
+      - deploy_backend:
+        requires:
+            - checkout_and_unit_test
       - acceptance_tests_1:
           requires:
             - deploy_backend
