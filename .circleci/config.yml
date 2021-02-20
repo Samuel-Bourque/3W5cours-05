@@ -32,7 +32,15 @@ workflows:
       - afterTests2:
           requires:
             - checkoutAndTest
+      - afterTests3:
+          requires:
+            - checkoutAndTest
+      - afterTests3:
+          requires:
+            - checkoutAndTest
       - deploy:
           requires:
             - afterTests1
             - afterTests2
+            - afterTests3
+            - afterTests4
