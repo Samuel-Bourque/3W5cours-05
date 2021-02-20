@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  checkoutAndTest:
+  deploy_staging:
     docker:
       - image: cimg/node:15.8.0
     steps:
@@ -10,45 +10,45 @@ jobs:
       - run: npm --version
       - run: npm install
       - run: npm run test
-  afterTests1:
+  acceptance_tests_1:
     machine: true
     steps:
       - run: echo "tests 1 have passed!"
-  afterTests2:
+  acceptance_tests_:
     machine: true
     steps:
       - run: echo "tests 2 have passed!"
-  afterTests3:
+  acceptance_tests_3:
     machine: true
     steps:
       - run: echo "tests 3 have passed!"
-  afterTests4:
+  acceptance_tests_4:
     machine: true
     steps:
       - run: echo "tests 4 have passed!"
-  deploy:
+  deploy_production:
     machine: true
     steps:
-      - run: echo "deploy"
+      - run: echo "deploy production"
 workflows:
   build:
     jobs:
-      - checkoutAndTest
-      - afterTests1:
+      - deploy_staging
+      - acceptance_tests_1:
           requires:
-            - checkoutAndTest
-      - afterTests2:
+            - deploy_staging
+      - acceptance_tests_2:
           requires:
-            - checkoutAndTest
-      - afterTests3:
+            - deploy_staging
+      - acceptance_tests_3:
           requires:
-            - checkoutAndTest
-      - afterTests4:
+            - deploy_staging
+      - acceptance_tests_4:
           requires:
-            - checkoutAndTest
-      - deploy:
+            - deploy_staging
+      - deploy_production:
           requires:
-            - afterTests1
-            - afterTests2
-            - afterTests3
-            - afterTests4
+            - acceptance_tests_1
+            - acceptance_tests_2
+            - acceptance_tests_3
+            - acceptance_tests_4
