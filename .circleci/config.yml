@@ -52,6 +52,6 @@ workflows:
           requires:
             - acceptances1
             - acceptances2
-      - notifyNewVersion
+      - notifyNewVersion:
           requires:
             - deployProd
