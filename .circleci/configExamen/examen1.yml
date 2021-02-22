@@ -1,0 +1,64 @@
+version: 2.1
+
+jobs:
+  waitForStagingToBeUp:
+    machine: true
+    steps:
+      - run: echo "Waiting until reposne from staging...."
+  deployProd:
+    machine: true
+    steps:
+      - run: echo "deploy prod build!"
+  notifyTeamOfNewBuild:
+    machine: true
+    steps:
+      - run: echo "Notification!"
+  acceptances1:
+    machine: true
+    steps:
+      - run: echo "acceptance test 1-5"
+  checkoutAndTest:
+    docker:
+      - image: cimg/node:15.8.0
+    steps:
+      - checkout
+      - run: echo "unit test"
+  acceptances2:
+    machine: true
+    steps:
+      - run: echo "acceptance test 6-10"
+  deployStaging:
+    machine: true
+    steps:
+      - run: echo "deploy staging"
+  notifyNewVersion:
+    machine: true
+    steps:
+      - run: echo "notify client of the new version"
+workflows:
+  build:
+    jobs:
+      - notifyTeamOfNewBuild
+      - checkoutAndTest:
+          requires:
+            - notifyTeamOfNewBuild
+      - waitForStagingToBeUp:
+          requires:
+            - notifyTeamOfNewBuild
+      - deployStaging:
+          requires:
+            - waitForStagingToBeUp
+            - checkoutAndTest
+      - acceptances1:
+          requires:
+            - deployStaging
+      - acceptances2:
+          requires:
+            - deployStaging
+      - deployProd:
+          requires:
+            - acceptances1
+            - acceptances2
+      - notifyNewVersion:
+          requires:
+            - deployProd
