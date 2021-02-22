@@ -47,7 +47,8 @@ workflows:
             - notifyTeamOfNewBuild
       - deployStaging:
           requires:
-            - notifyTeamOfNewBuild
+            - waitForStagingToBeUp
+            - checkoutAndTest
       - acceptances1:
           requires:
             - deployStaging
