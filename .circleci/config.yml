@@ -1,10 +1,11 @@
 version: 2.1
 
-checkout:
-  docker:
-    - image: cimg/node:15.8.0
-  steps:
-    - checkout
+jobs:
+  checkout:
+    docker:
+      - image: cimg/node:15.8.0
+    steps:
+      - checkout
 workflows:
   build:
     jobs:
