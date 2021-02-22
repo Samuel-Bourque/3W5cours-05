@@ -1,19 +1,57 @@
 version: 2.1
 
 jobs:
-  sayhelloWithParams:
-    description: A job that says Hello
-    parameters:
-      saywhat:
-        description: "To whom shall we say hello?"
-        default: "World"
-        type: string
+  waitForStagingToBeUp:
     machine: true
     steps:
-      - run: echo "Hello << parameters.saywhat >>"
-
+      - run: echo "Waiting until reposne from staging...."
+  deployProd:
+    machine: true
+    steps:
+      - run: echo "deploy prod build!"
+  notifyTeamOfNewBuild:
+    machine: true
+    steps:
+      - run: echo "Notification!"
+  acceptances1:
+    machine: true
+    steps:
+      - run: echo "acceptance test 1-5"
+  checkoutAndTest:
+    docker:
+      - image: cimg/node:15.8.0
+    steps:
+      - checkout
+      - run: echo "unit test"
+  acceptances2:
+    machine: true
+    steps:
+      - run: echo "acceptance test 6-10"
+  deployStaging:
+    machine: true
+    steps:
+      - run: echo "deploy staging"
+  notifyNewVersion:
+    machine: true
+    steps:
+      - run: echo "notify client of the new version"
 workflows:
-  monWorkflow:
+  build:
     jobs:
-      - sayhelloWithParams:
-          saywhat: Everyone
+      - checkoutAndTest
+      - notifyTeamOfNewBuild
+      - waitForStagingToBeUp
+      - deployStaging
+      - acceptances1:
+          requires:
+            - checkoutAndTest
+      - acceptances2:
+          requires:
+            - checkoutAndTest
+      - deployProd:
+          requires:
+            - acceptances1
+            - acceptances2
+      - notifyNewVersion
+                requires:
+            - deployProd
