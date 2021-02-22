@@ -38,16 +38,16 @@ jobs:
 workflows:
   build:
     jobs:
-      - checkoutAndTest
       - notifyTeamOfNewBuild
+      - checkoutAndTest
       - waitForStagingToBeUp
       - deployStaging
       - acceptances1:
           requires:
-            - checkoutAndTest
+            - deployStaging
       - acceptances2:
           requires:
-            - checkoutAndTest
+            - deployStaging
       - deployProd:
           requires:
             - acceptances1
