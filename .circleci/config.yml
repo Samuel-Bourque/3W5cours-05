@@ -38,16 +38,16 @@ jobs:
 workflows:
   build:
     jobs:
-      - notifyTeamOfNewBuild
+      - notifyTeamOfNewBuild:
           requires:
             - notifyTeamOfNewBuild
-      - checkoutAndTest
+      - checkoutAndTest:
           requires:
             - notifyTeamOfNewBuild
-      - waitForStagingToBeUp
+      - waitForStagingToBeUp:
           requires:
             - notifyTeamOfNewBuild
-      - deployStaging
+      - deployStaging:
           requires:
             - notifyTeamOfNewBuild
       - acceptances1:
