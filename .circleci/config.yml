@@ -38,9 +38,7 @@ jobs:
 workflows:
   build:
     jobs:
-      - notifyTeamOfNewBuild:
-          requires:
-            - notifyTeamOfNewBuild
+      - notifyTeamOfNewBuild
       - checkoutAndTest:
           requires:
             - notifyTeamOfNewBuild
