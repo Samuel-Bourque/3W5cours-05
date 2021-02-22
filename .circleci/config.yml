@@ -5,3 +5,7 @@ checkout:
     - image: cimg/node:15.8.0
   steps:
     - checkout
+workflows:
+  build:
+    jobs:
+      - checkout
